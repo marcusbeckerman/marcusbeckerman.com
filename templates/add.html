@@ -64,7 +64,14 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <form name="addPost" id="addPost" method="POST" action="{{url_for('submitpost')}}" novalidate>
+        <form name="addPost" id="addPost" method="POST" action="{{url_for('submitpost')}}" novalidate enctype="multipart/form-data">
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <h5>Header Image:</h5>
+              <input type="file" class="form-control" placeholder="Image" name="image" id="image" required data-validation-required-message="Please upload an image">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Title</label>
