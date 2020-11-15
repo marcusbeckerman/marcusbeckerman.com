@@ -31,6 +31,12 @@ def post(post_id):
 
     return render_template('post.html', post=post)
 
+@app.route('/all')
+def all():
+    posts = Blogpost.query.order_by(Blogpost.date_posted.desc()).all()
+
+    return render_template('all.html', posts=posts)
+
 @app.route('/about')
 def about():
     return render_template('about.html')
