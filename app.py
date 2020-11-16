@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect, session, f
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from werkzeug.utils import secure_filename
+import markdown
 import bcrypt
 import os
 
@@ -10,7 +11,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./blog.db'
 app.secret_key = os.urandom(12)
 
 db = SQLAlchemy(app)
-pwhash = b'$2b$15$I8ui9z0gGivDf9sis5wB6O0HElDZGkXldSLcKUyya0asurKRhO9tW'
+pwhash = b'$2b$15$I8ui9z0gGivDf9sis5wB6O0HElDZGkXldSLcKUyya0asurKRhO9tW' # Generated using brypt.hashpw()
 
 class Blogpost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -66,7 +67,7 @@ def submitpost():
     title = request.form['title']
     subtitle = request.form['subtitle']
     author = request.form['author']
-    content = request.form['content']
+    content = markdown.markdown(request.form['content'])
     image = request.files['image']
     image.save('uploads/' + secure_filename(image.filename))
 
