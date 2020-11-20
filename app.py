@@ -64,19 +64,22 @@ def login():
 
 @app.route('/submitpost', methods=['POST'])
 def submitpost():
-    title = request.form['title']
-    subtitle = request.form['subtitle']
-    author = request.form['author']
-    content = markdown.markdown(request.form['content'])
-    image = request.files['image']
-    image.save('uploads/' + secure_filename(image.filename))
+    if session.get('logged_in'):
+        title = request.form['title']
+        subtitle = request.form['subtitle']
+        author = request.form['author']
+        content = markdown.markdown(request.form['content'])
+        image = request.files['image']
+        image.save('uploads/' + secure_filename(image.filename))
 
-    post = Blogpost(title=title, subtitle=subtitle, author=author, content=content, date_posted=datetime.now(), image=secure_filename(image.filename))
+        post = Blogpost(title=title, subtitle=subtitle, author=author, content=content, date_posted=datetime.now(), image=secure_filename(image.filename))
 
-    db.session.add(post)
-    db.session.commit()
+        db.session.add(post)
+        db.session.commit()
 
-    return redirect(url_for('index'))
+        return redirect(url_for('index'))
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
