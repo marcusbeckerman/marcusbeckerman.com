@@ -2,3 +2,4 @@
 /__pycache__
 /blog.db
 /uploads
+/.vscode/settings.json
